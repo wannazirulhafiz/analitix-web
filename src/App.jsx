@@ -31,52 +31,78 @@ function Logo({ size = 24 }) {
 // ─── Nav ───────────────────────────────────────────────────────────────────
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', fn);
     return () => window.removeEventListener('scroll', fn);
   }, []);
   return (
-    <nav style={{
-      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-      padding: '0 48px', height: 64,
-      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      background: scrolled ? 'rgba(10,11,15,0.9)' : 'transparent',
-      backdropFilter: scrolled ? 'blur(20px)' : 'none',
-      borderBottom: scrolled ? '1px solid rgba(0,212,255,0.1)' : '1px solid transparent',
-      transition: 'all 0.3s',
-    }}>
-      <Logo size={18} />
-      <div style={{ display: 'flex', gap: 32 }}>
-        {['Features', 'Platforms', 'Pricing', 'Docs'].map(item => (
-          <a key={item} href={`#${item.toLowerCase()}`} style={{
-            fontFamily: "'Inter',sans-serif", fontSize: 13, color: 'rgba(255,255,255,0.5)',
-            textDecoration: 'none', letterSpacing: '0.02em', transition: 'color 0.2s',
+    <>
+      <nav className="r-nav" style={{
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, height: 64,
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        background: scrolled ? 'rgba(10,11,15,0.9)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(20px)' : 'none',
+        borderBottom: scrolled ? '1px solid rgba(0,212,255,0.1)' : '1px solid transparent',
+        transition: 'all 0.3s',
+      }}>
+        <Logo size={18} />
+        <div className="r-nav-links">
+          {['Features', 'Platforms', 'Pricing', 'Docs'].map(item => (
+            <a key={item} href={`#${item.toLowerCase()}`} style={{
+              fontFamily: "'Inter',sans-serif", fontSize: 13, color: 'rgba(255,255,255,0.5)',
+              textDecoration: 'none', letterSpacing: '0.02em', transition: 'color 0.2s',
+            }}
+            onMouseEnter={e => e.target.style.color = '#fff'}
+            onMouseLeave={e => e.target.style.color = 'rgba(255,255,255,0.5)'}
+            >{item}</a>
+          ))}
+        </div>
+        <div className="r-hide-mob" style={{ gap: 10 }}>
+          <button style={{
+            background: 'transparent', border: '1px solid rgba(255,255,255,0.1)',
+            color: 'rgba(255,255,255,0.6)', padding: '7px 18px', borderRadius: 6,
+            fontSize: 13, cursor: 'pointer', fontFamily: "'Inter',sans-serif", transition: 'all 0.2s',
           }}
-          onMouseEnter={e => e.target.style.color = '#fff'}
-          onMouseLeave={e => e.target.style.color = 'rgba(255,255,255,0.5)'}
-          >{item}</a>
-        ))}
-      </div>
-      <div style={{ display: 'flex', gap: 10 }}>
-        <button style={{
+          onMouseEnter={e => { e.target.style.borderColor = 'rgba(0,212,255,0.4)'; e.target.style.color = '#fff'; }}
+          onMouseLeave={e => { e.target.style.borderColor = 'rgba(255,255,255,0.1)'; e.target.style.color = 'rgba(255,255,255,0.6)'; }}
+          >Sign in</button>
+          <button style={{
+            background: gradientCSS(), border: 'none', color: '#fff',
+            padding: '7px 20px', borderRadius: 6, fontSize: 13, fontWeight: 600,
+            cursor: 'pointer', fontFamily: "'Inter',sans-serif", letterSpacing: '0.03em', transition: 'opacity 0.2s',
+          }}
+          onMouseEnter={e => e.target.style.opacity = '0.85'}
+          onMouseLeave={e => e.target.style.opacity = '1'}
+          >Get Access</button>
+        </div>
+        <button className="r-show-mob" onClick={() => setMenuOpen(v => !v)} style={{
           background: 'transparent', border: '1px solid rgba(255,255,255,0.1)',
-          color: 'rgba(255,255,255,0.6)', padding: '7px 18px', borderRadius: 6,
-          fontSize: 13, cursor: 'pointer', fontFamily: "'Inter',sans-serif", transition: 'all 0.2s',
-        }}
-        onMouseEnter={e => { e.target.style.borderColor = 'rgba(0,212,255,0.4)'; e.target.style.color = '#fff'; }}
-        onMouseLeave={e => { e.target.style.borderColor = 'rgba(255,255,255,0.1)'; e.target.style.color = 'rgba(255,255,255,0.6)'; }}
-        >Sign in</button>
-        <button style={{
-          background: gradientCSS(), border: 'none', color: '#fff',
-          padding: '7px 20px', borderRadius: 6, fontSize: 13, fontWeight: 600,
-          cursor: 'pointer', fontFamily: "'Inter',sans-serif", letterSpacing: '0.03em', transition: 'opacity 0.2s',
-        }}
-        onMouseEnter={e => e.target.style.opacity = '0.85'}
-        onMouseLeave={e => e.target.style.opacity = '1'}
-        >Get Access</button>
-      </div>
-    </nav>
+          borderRadius: 6, padding: '6px 10px', cursor: 'pointer',
+          color: 'rgba(255,255,255,0.7)', fontSize: 18, lineHeight: 1,
+        }}>☰</button>
+      </nav>
+      {menuOpen && (
+        <div style={{
+          position: 'fixed', top: 64, left: 0, right: 0, zIndex: 99,
+          background: 'rgba(10,11,15,0.97)', backdropFilter: 'blur(20px)',
+          borderBottom: '1px solid rgba(0,212,255,0.1)',
+          padding: '20px', display: 'flex', flexDirection: 'column', gap: 16,
+        }}>
+          {['Features', 'Platforms', 'Pricing', 'Docs'].map(item => (
+            <a key={item} href={`#${item.toLowerCase()}`} onClick={() => setMenuOpen(false)} style={{
+              fontSize: 16, color: 'rgba(255,255,255,0.7)', textDecoration: 'none',
+              padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.05)',
+            }}>{item}</a>
+          ))}
+          <button style={{
+            background: gradientCSS(), border: 'none', color: '#fff',
+            padding: '12px', borderRadius: 8, fontSize: 14, fontWeight: 600, cursor: 'pointer', marginTop: 8,
+          }}>Get Access</button>
+        </div>
+      )}
+    </>
   );
 }
 
@@ -200,10 +226,10 @@ const PLATFORMS = [
 // ─── Hero ──────────────────────────────────────────────────────────────────
 function Hero() {
   return (
-    <section style={{
-      minHeight: '100vh', padding: '100px 48px 80px',
+    <section className="r-hero" style={{
+      minHeight: '100vh',
       display: 'flex', flexDirection: 'column', alignItems: 'center',
-      position: 'relative',
+      position: 'relative', overflow: 'hidden',
     }}>
       <div style={{
         position: 'absolute', top: '20%', left: '50%', transform: 'translateX(-50%)',
@@ -273,8 +299,8 @@ function LiveFeed() {
   const sentColors = { positive: '#00ff88', neutral: '#00d4ff', negative: '#ff2d78' };
 
   return (
-    <section id="features" style={{ padding: '80px 48px', background: 'var(--bg)' }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+    <section id="features" className="r-section" style={{ background: 'var(--bg)' }}>
+      <div className="r-inner">
         <div style={{ textAlign: 'center', marginBottom: 52 }}>
           <div style={{ fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '0.12em', color: C1, marginBottom: 14 }}>// LIVE INTELLIGENCE</div>
           <h2 style={{ fontFamily: "'Inter',sans-serif", fontWeight: 700, fontSize: 'clamp(26px,3.5vw,44px)', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
@@ -283,7 +309,7 @@ function LiveFeed() {
           </h2>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: 24, alignItems: 'start' }}>
+        <div className="r-grid-2">
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             {[
               { label: 'Posts captured (daily)', value: '9,000+', color: C1 },
@@ -418,7 +444,7 @@ function DashboardMockup() {
           ))}
         </div>
         <div style={{ flex: 1, padding: 14, overflow: 'hidden' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 8, marginBottom: 12 }}>
+          <div className="r-dash-metrics">
             {metrics.map(m => (
               <div key={m.label} style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 8, padding: '10px 12px', border: '1px solid rgba(255,255,255,0.06)' }}>
                 <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: 10, marginBottom: 4 }}>{m.label}</div>
@@ -427,7 +453,7 @@ function DashboardMockup() {
               </div>
             ))}
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 10 }}>
+          <div className="r-dash-cols">
             <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 8, padding: 12, border: '1px solid rgba(255,255,255,0.06)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
                 <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 11 }}>Post Volume Trend</span>
@@ -451,8 +477,8 @@ function DashboardMockup() {
 // ─── Dashboard Section ────────────────────────────────────────────────────────
 function DashboardSection() {
   return (
-    <section style={{ padding: '80px 48px', background: 'var(--bg2)', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+    <section className="r-section" style={{ background: 'var(--bg2)', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+      <div className="r-inner">
         <div style={{ textAlign: 'center', marginBottom: 52 }}>
           <div style={{ fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '0.12em', color: C1, marginBottom: 14 }}>// DASHBOARD</div>
           <h2 style={{ fontFamily: "'Inter',sans-serif", fontWeight: 700, fontSize: 'clamp(26px,3.5vw,44px)', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
@@ -468,7 +494,7 @@ function DashboardSection() {
   );
 }
 
-// ─── Features ──────────────────────────────────────────────────────────────
+// ─── Features ─────────────────────────────────────────────────────────────
 function FeatureCard({ f }) {
   const [hov, setHov] = useState(false);
   return (
@@ -501,15 +527,15 @@ function Features() {
     { icon: '⬡', title: 'PDPA Compliant', desc: 'All data is processed and stored on Malaysian infrastructure. Personal data handling follows PDPA 2010 requirements by design.', tag: 'PDPA 2010' },
   ];
   return (
-    <section style={{ padding: '80px 48px', background: 'var(--bg2)', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+    <section className="r-section" style={{ background: 'var(--bg2)', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+      <div className="r-inner">
         <div style={{ textAlign: 'center', marginBottom: 52 }}>
           <div style={{ fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '0.12em', color: C1, marginBottom: 14 }}>// CAPABILITIES</div>
           <h2 style={{ fontFamily: "'Inter',sans-serif", fontWeight: 700, fontSize: 'clamp(26px,3.5vw,44px)', letterSpacing: '-0.02em' }}>
             Everything you need to<br /><span style={gradientText()}>listen at scale</span>
           </h2>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 1 }}>
+        <div className="r-grid-3" style={{ gap: 1 }}>
           {feats.map((f, i) => <FeatureCard key={i} f={f} />)}
         </div>
       </div>
@@ -541,7 +567,7 @@ function Pricing() {
     },
   ];
   return (
-    <section id="pricing" style={{ padding: '80px 48px', background: 'var(--bg)', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+    <section id="pricing" className="r-section" style={{ background: 'var(--bg)', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
       <div style={{ maxWidth: 1000, margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: 52 }}>
           <div style={{ fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '0.12em', color: C1, marginBottom: 14 }}>// PRICING</div>
@@ -560,7 +586,7 @@ function Pricing() {
             ))}
           </div>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 1, border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, overflow: 'hidden' }}>
+        <div className="r-pricing" style={{ border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, overflow: 'hidden' }}>
           {plans.map((p, i) => (
             <div key={i} style={{
               padding: '36px 28px', borderRight: i < 2 ? '1px solid rgba(255,255,255,0.07)' : 'none',
@@ -634,7 +660,7 @@ function Footer() {
   return (
     <footer style={{ background: 'var(--bg)', borderTop: '1px solid rgba(255,255,255,0.05)', padding: '48px 48px 28px' }}>
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1.5fr repeat(3,1fr)', gap: 40, marginBottom: 40 }}>
+        <div className="r-footer-grid">
           <div>
             <Logo size={18} />
             <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', lineHeight: 1.7, marginTop: 14, maxWidth: 210 }}>

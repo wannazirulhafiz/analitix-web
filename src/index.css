@@ -65,6 +65,51 @@ body {
     repeating-linear-gradient(90deg, transparent, transparent 17px, rgba(0,212,255,0.04) 18px);
 }
 
+/* ── Responsive helpers ── */
+.r-section      { padding: 80px 48px; }
+.r-inner        { max-width: 1100px; margin: 0 auto; }
+.r-grid-3       { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; }
+.r-grid-2       { display: grid; grid-template-columns: 1fr 1.4fr; gap: 24px; align-items: start; }
+.r-grid-4       { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; }
+.r-pricing      { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; }
+.r-hide-mob     { display: flex; }
+.r-show-mob     { display: none; }
+.r-nav-links    { display: flex; gap: 32px; }
+.r-nav          { padding: 0 48px; }
+.r-hero         { padding: 100px 48px 80px; }
+.r-dash-cols    { display: grid; grid-template-columns: 1.5fr 1fr; gap: 10px; }
+.r-dash-metrics { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 12px; }
+.r-footer-grid  { display: grid; grid-template-columns: 1.5fr repeat(3,1fr); gap: 40px; margin-bottom: 40px; }
+
+@media (max-width: 1024px) {
+  .r-section      { padding: 64px 32px; }
+  .r-nav          { padding: 0 32px; }
+  .r-hero         { padding: 100px 32px 64px; }
+  .r-grid-3       { grid-template-columns: repeat(2,1fr); }
+  .r-pricing      { grid-template-columns: 1fr; gap: 12px; }
+  .r-grid-2       { grid-template-columns: 1fr; }
+  .r-grid-4       { grid-template-columns: repeat(2,1fr); }
+  .r-dash-cols    { grid-template-columns: 1fr; }
+  .r-dash-metrics { grid-template-columns: repeat(2,1fr); }
+  .r-footer-grid  { grid-template-columns: 1fr 1fr; gap: 28px; }
+}
+
+@media (max-width: 640px) {
+  .r-section      { padding: 48px 20px; }
+  .r-nav          { padding: 0 20px; }
+  .r-hero         { padding: 90px 20px 48px; }
+  .r-grid-3       { grid-template-columns: 1fr; }
+  .r-grid-4       { grid-template-columns: repeat(2,1fr); }
+  .r-hide-mob     { display: none; }
+  .r-show-mob     { display: flex; }
+  .r-nav-links    { display: none; }
+  .r-dash-metrics { grid-template-columns: repeat(2,1fr); }
+  .r-dash-cols    { grid-template-columns: 1fr; }
+  .r-pricing      { grid-template-columns: 1fr; gap: 12px; }
+  .r-footer-grid  { grid-template-columns: 1fr; gap: 24px; }
+  footer          { padding: 40px 20px 24px !important; }
+}
+
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: rgba(0,212,255,0.3); border-radius: 4px; }
