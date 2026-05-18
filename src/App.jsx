@@ -59,7 +59,7 @@ function Nav() {
             >{item}</a>
           ))}
         </div>
-        <div className="r-hide-mob" style={{ gap: 10 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <button style={{
             background: 'transparent', border: '1px solid rgba(255,255,255,0.1)',
             color: 'rgba(255,255,255,0.6)', padding: '7px 18px', borderRadius: 6,
@@ -67,21 +67,14 @@ function Nav() {
           }}
           onMouseEnter={e => { e.target.style.borderColor = 'rgba(0,212,255,0.4)'; e.target.style.color = '#fff'; }}
           onMouseLeave={e => { e.target.style.borderColor = 'rgba(255,255,255,0.1)'; e.target.style.color = 'rgba(255,255,255,0.6)'; }}
+          onClick={() => window.location.href = 'https://socmed.analitix.my/'}
           >Sign in</button>
-          <button style={{
-            background: gradientCSS(), border: 'none', color: '#fff',
-            padding: '7px 20px', borderRadius: 6, fontSize: 13, fontWeight: 600,
-            cursor: 'pointer', fontFamily: "'Inter',sans-serif", letterSpacing: '0.03em', transition: 'opacity 0.2s',
-          }}
-          onMouseEnter={e => e.target.style.opacity = '0.85'}
-          onMouseLeave={e => e.target.style.opacity = '1'}
-          >Get Access</button>
+          <button className="r-show-mob" onClick={() => setMenuOpen(v => !v)} style={{
+            background: 'transparent', border: '1px solid rgba(255,255,255,0.1)',
+            borderRadius: 6, padding: '6px 10px', cursor: 'pointer',
+            color: 'rgba(255,255,255,0.7)', fontSize: 18, lineHeight: 1,
+          }}>☰</button>
         </div>
-        <button className="r-show-mob" onClick={() => setMenuOpen(v => !v)} style={{
-          background: 'transparent', border: '1px solid rgba(255,255,255,0.1)',
-          borderRadius: 6, padding: '6px 10px', cursor: 'pointer',
-          color: 'rgba(255,255,255,0.7)', fontSize: 18, lineHeight: 1,
-        }}>☰</button>
       </nav>
       {menuOpen && (
         <div style={{
@@ -96,10 +89,6 @@ function Nav() {
               padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.05)',
             }}>{item}</a>
           ))}
-          <button style={{
-            background: gradientCSS(), border: 'none', color: '#fff',
-            padding: '12px', borderRadius: 8, fontSize: 14, fontWeight: 600, cursor: 'pointer', marginTop: 8,
-          }}>Get Access</button>
         </div>
       )}
     </>
@@ -551,19 +540,19 @@ function Pricing() {
       name: 'STARTER', price: annual ? 'RM 299' : 'RM 359',
       desc: 'For individuals & small teams exploring social listening.',
       features: ['3 platforms', 'Your own whitelisted accounts', '3 snapshots per post', '3 day data retention'],
-      cta: 'Start 7-day free trial', hot: false,
+      cta: 'Sign in', hot: false,
     },
     {
       name: 'BUSINESS', price: annual ? 'RM 999' : 'RM 1,199',
       desc: 'For marketing teams that need deeper competitive intelligence.',
       features: ['6 platforms', 'Your own whitelisted accounts', 'Access to our curated account list', '6 snapshots per post', '7 day data retention'],
-      cta: 'Start 7-day free trial', hot: true,
+      cta: 'Sign in', hot: true,
     },
     {
       name: 'ENTERPRISE', price: 'Custom',
       desc: 'For large brands, agencies & government bodies with custom requirements.',
       features: ['Custom platforms', 'Your own whitelisted accounts', 'Access to our curated account list', 'Custom snapshots per post', 'Custom data retention', 'Dedicated support'],
-      cta: 'Contact us', hot: false,
+      cta: 'Sign in', hot: false,
     },
   ];
   return (
@@ -610,16 +599,6 @@ function Pricing() {
                   </div>
                 ))}
               </div>
-              <button style={{
-                width: '100%', padding: '11px',
-                background: p.hot ? gradientCSS() : 'transparent',
-                border: p.hot ? 'none' : '1px solid rgba(255,255,255,0.12)',
-                color: '#fff', borderRadius: 7, fontSize: 13, cursor: 'pointer',
-                fontFamily: "'Inter',sans-serif", fontWeight: 500, transition: 'opacity 0.2s',
-              }}
-              onMouseEnter={e => e.target.style.opacity = '0.8'}
-              onMouseLeave={e => e.target.style.opacity = '1'}
-              >{p.cta}</button>
             </div>
           ))}
         </div>
@@ -639,7 +618,7 @@ function CTA() {
           Ready to hear <span style={gradientText()}>Malaysia's voice</span>?
         </h2>
         <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.45)', lineHeight: 1.65, marginBottom: 36 }}>
-          Get started in minutes. No credit card required. 7-day free trial.
+          Sign in to get started. Stay free or upgrade anytime.
         </p>
         <button style={{
           background: gradientCSS(), border: 'none', color: '#fff',
@@ -649,7 +628,8 @@ function CTA() {
         }}
         onMouseEnter={e => { e.target.style.transform = 'translateY(-2px)'; }}
         onMouseLeave={e => { e.target.style.transform = 'translateY(0)'; }}
-        >Start 7-day free trial</button>
+        onClick={() => window.location.href = 'https://socmed.analitix.my/'}
+        >Sign in</button>
       </div>
     </section>
   );
